@@ -4,9 +4,11 @@ public abstract class Car implements Movable {
 
     private final int nrDoors; // Number of doors on the car
     private final double enginePower; // Engine power of the car
-    private double currentSpeed; // The current speed of the car
-    private Color color; // Color of the car
     private final String modelName; // The car model name
+    private Color color; // Color of the car
+    private double currentSpeed; // The current speed of the car
+    private double[] position;
+    private double rotation;
 
     public Car(int nrDoors, double enginePower, Color color, String modelName) {
         this.nrDoors = nrDoors;
@@ -36,6 +38,14 @@ public abstract class Car implements Movable {
         return color;
     }
 
+    public double[] getPosition() {
+        return position;
+    }
+
+    public double getDirection() {
+        return rotation;
+    }
+
     public void setColor(Color clr) {
         color = clr;
     }
@@ -50,14 +60,6 @@ public abstract class Car implements Movable {
 
     protected double speedFactor(){
         return enginePower * 0.01;
-    }
-
-    private void incrementSpeed(double amount){
-        currentSpeed = Math.min(getCurrentSpeed() + speedFactor() * amount,enginePower);
-    }
-
-    private void decrementSpeed(double amount){
-        currentSpeed = Math.max(getCurrentSpeed() - speedFactor() * amount,0);
     }
 
     // TODO fix this method according to lab pm
@@ -82,4 +84,20 @@ public abstract class Car implements Movable {
 
     }
 
+    private void incrementSpeed(double amount){
+        currentSpeed = Math.min(getCurrentSpeed() + speedFactor() * amount,enginePower);
+    }
+
+    private void decrementSpeed(double amount){
+        currentSpeed = Math.max(getCurrentSpeed() - speedFactor() * amount,0);
+    }
+
+    private double[] getDirectionVector(double rotation) {
+        double x = Math.sin(rotation);
+        double y = Math.cos(rotation);
+        double[] dir = new double[2];
+        dir[0] = x;
+        dir[1] = y;
+        return dir;
+    }
 }
