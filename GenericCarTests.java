@@ -31,7 +31,7 @@ public class GenericCarTests {
         assertEquals(4, InstanceVolvo240.getNrDoors());
         assertEquals(Color.black, InstanceVolvo240.getColor());
         assertEquals(100, InstanceVolvo240.getEnginePower());
-        assertEquals("Volvo240", InstanceVolvo240.modelName);
+        assertEquals("Volvo240", InstanceVolvo240.getModelName());
 
         // Test correct speed & handling
 

@@ -5,15 +5,11 @@ public class Volvo240 extends Car{
     final static double trimFactor = 1.25;
     
     public Volvo240(){
-        nrDoors = 4;
-        color = Color.black;
-        enginePower = 100;
-        modelName = "Volvo240";
-        stopEngine();
+        super(4, 100, Color.black, "Volvo240");
     }
 
     @Override
-    public double speedFactor(){
-        return enginePower * 0.01 * trimFactor;
+    protected double speedFactor(){
+        return getEnginePower() * 0.01 * trimFactor;
     }
 }
