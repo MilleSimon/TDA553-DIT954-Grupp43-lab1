@@ -5,30 +5,28 @@ public abstract class Car implements Movable {
     private final int nrDoors; // Number of doors on the car
     private final double enginePower; // Engine power of the car
     private final String modelName; // The car model name
+    private final double rotationSpeed; // Rotation angle per turn
     private Color color; // Color of the car
     private double currentSpeed; // The current speed of the car
-    private double[] position;
-    private double rotation;
+    private Position position;
+    private Rotation rotation;
 
     public Car(int nrDoors, double enginePower, Color color, String modelName) {
         this.nrDoors = nrDoors;
         this.enginePower = enginePower;
         this.color = color;
         this.modelName = modelName;
+        this.position = new Position(0, 0);
+        this.rotation = new Rotation(0);
+        this.rotationSpeed = Math.toRadians(40);
         stopEngine();
     }
 
-    public int getNrDoors() {
-        return nrDoors;
-    }
+    public int getNrDoors() { return nrDoors; }
 
-    public double getEnginePower() {
-        return enginePower;
-    }
+    public double getEnginePower() { return enginePower; }
 
-    public double getCurrentSpeed() {
-        return currentSpeed;
-    }
+    public double getCurrentSpeed() { return currentSpeed; }
 
     public String getModelName() {
         return modelName;
@@ -38,13 +36,11 @@ public abstract class Car implements Movable {
         return color;
     }
 
-    public double[] getPosition() {
+    public Position getPosition() {
         return position;
     }
 
-    public double getDirection() {
-        return rotation;
-    }
+    public Rotation getRotation() { return rotation; }
 
     public void setColor(Color clr) {
         color = clr;
@@ -62,26 +58,29 @@ public abstract class Car implements Movable {
         return enginePower * 0.01;
     }
 
-    // TODO fix this method according to lab pm
     public void gas(double amount) {
         incrementSpeed(amount);
     }
 
-    // TODO fix this method according to lab pm
     public void brake(double amount) {
         decrementSpeed(amount);
     }
 
     public void move() {
-
+        Position dirVec = rotation.getDirectionVector();
+        double newX = position.getX() + dirVec.getX() * currentSpeed;
+        double newY = position.getY() + dirVec.getY() * currentSpeed;
+        position = new Position(newX, newY);
     }
 
     public void turnLeft() {
-
+        double newRotation = rotation.getRotation() - rotationSpeed;
+        rotation = new Rotation(newRotation);
     }
 
     public void turnRight() {
-
+        double newRotation = rotation.getRotation() + rotationSpeed;
+        rotation = new Rotation(newRotation);
     }
 
     private void incrementSpeed(double amount){
@@ -92,12 +91,5 @@ public abstract class Car implements Movable {
         currentSpeed = Math.max(getCurrentSpeed() - speedFactor() * amount,0);
     }
 
-    private double[] getDirectionVector(double rotation) {
-        double x = Math.sin(rotation);
-        double y = Math.cos(rotation);
-        double[] dir = new double[2];
-        dir[0] = x;
-        dir[1] = y;
-        return dir;
-    }
+
 }
