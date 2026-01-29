@@ -14,11 +14,11 @@ public abstract class CarTest {
         this.testInstance = instance;
     }
 
-    // Increase speed for both test instances, to help with tests that rely on existing speed
+    // Increase speed for test instance, to help with tests that rely on existing speed
     @BeforeEach
     void setUpInstance() {
         testInstance.startEngine();
-        for (int i = 1; i < 5; i++) { // i < 5 is arbitrary here, simply being enough so that neither vehicle hits their speed ceiling after one more full gas nor can hit their speed floor after one break.
+        for (int i = 1; i < 5; i++) { // i < 5 is arbitrary here, more than 1 but not enough to hit Engine Power
             testInstance.gas(1);
         }
         testInstanceReferenceSpeed = testInstance.getCurrentSpeed();
