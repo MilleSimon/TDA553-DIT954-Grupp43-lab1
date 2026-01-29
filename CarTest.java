@@ -6,15 +6,17 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class CarTest {
-    // Ideally there'd be a test class that is a blank utility of the Car class as it is abstract
-    int testInstanceIteration = 0;
+public abstract class CarTest {
     double testInstanceReferenceSpeed;
     Car testInstance;
 
+    public CarTest(Car instance){
+        this.testInstance = instance;
+    }
+
     // Increase speed for both test instances, to help with tests that rely on existing speed
     @BeforeEach
-    void setUp() {
+    void setUpInstance() {
         testInstance.startEngine();
         for (int i = 1; i < 5; i++) { // i < 5 is arbitrary here, simply being enough so that neither vehicle hits their speed ceiling after one more full gas nor can hit their speed floor after one break.
             testInstance.gas(1);
@@ -23,7 +25,7 @@ class CarTest {
     }
 
     @AfterEach
-    void tearDown() {
+    void tearDownInstance() {
         testInstance.stopEngine();
     }
 

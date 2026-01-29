@@ -1,7 +1,11 @@
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
-class Saab95Test {
+class Saab95Test extends CarTest{
+
+    public Saab95Test() {
+        super(new Saab95());
+    }
 
     @Test
     void TestSaab95() {

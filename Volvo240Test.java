@@ -1,8 +1,13 @@
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class Volvo240Test extends CarTest{
+
+    public Volvo240Test() {
+        super(new Volvo240());
+    }
 
     @Test
     void TestVolvo240() {
