@@ -2,7 +2,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class Volvo240Test {
+class Volvo240Test extends CarTest{
 
     @Test
     void TestVolvo240() {
