@@ -18,7 +18,7 @@ public abstract class Car implements Movable {
         this.modelName = modelName;
         this.position = new Position(0, 0);
         this.rotation = new Rotation(0);
-        this.rotationSpeed = Math.toRadians(40);
+        this.rotationSpeed = Math.toRadians(4);
         stopEngine();
     }
 

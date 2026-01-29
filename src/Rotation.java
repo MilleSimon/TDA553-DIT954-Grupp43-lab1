@@ -15,8 +15,8 @@ public class Rotation {
     }
 
     public Position getDirectionVector() {
-        double x = Math.sin(rotation);
-        double y = Math.cos(rotation);
+        double x = Math.cos(rotation);
+        double y = Math.sin(rotation);
         return new Position(x, y);
     }
 }
