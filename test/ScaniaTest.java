@@ -2,20 +2,16 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ScaniaTest extends CarTest {
+
     public ScaniaTest() {
         super(new Scania());
     }
 
-    Scania instanceScania = new Scania();
-
     @Test
     void TestInMotion() {
-
-        if (instanceScania.getCurrentSpeed() <= 0) { // Car inheritance should already accelerate, but for test independence it is good to do this I'd say, for now at least
-            instanceScania.startEngine();
-            instanceScania.gas(1);
-            System.out.println("Test did not properly accelerate from car");
-        }
+        Scania instanceScania = new Scania();
+        instanceScania.startEngine();
+        instanceScania.gas(1);
 
         // Make sure the instance properly initiated
         assertEquals("Scania", instanceScania.getModelName());
@@ -27,6 +23,7 @@ public class ScaniaTest extends CarTest {
 
     @Test
     void TestRampBaseFunctionality() {
+        Scania instanceScania = new Scania();
         instanceScania.stopEngine();
 
         int testAngle = instanceScania.getRampAngle();
@@ -39,6 +36,7 @@ public class ScaniaTest extends CarTest {
 
     @Test
     void TestRange() {
+        Scania instanceScania = new Scania();
         instanceScania.stopEngine();
 
         int testAngle = instanceScania.getRampAngle();
