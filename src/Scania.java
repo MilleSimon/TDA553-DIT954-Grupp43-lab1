@@ -2,6 +2,7 @@ import java.awt.*;
 
 public class Scania extends Car {
 
+    final private DegreeRamp ramp;
 
     public Scania(){
         super(2, 50, Color.gray, "Scania");
