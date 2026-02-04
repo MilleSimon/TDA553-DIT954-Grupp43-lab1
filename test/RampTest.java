@@ -9,17 +9,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class RampTest {
-    private final Ramp testInstance;
+    private final Ramp testInstance = new Ramp();
     private boolean openTracker;
 
     private static boolean[] patternlessBooleans = new boolean[] {false, true, false, false, true, false, true, false,
             true, false, false, true, true, false, false, true, true, false, false, false, false, false, false, false,
             true, false, false, true, true, false, false, true, true, false, true, true, false, false, true, true, true,
             false, true, false, true, false, false, true, true, true};
-
-    public RampTest(Ramp testInstance) {
-        this.testInstance = testInstance;
-    }
 
     @BeforeEach
     void resetRamp() {
@@ -65,6 +61,6 @@ public class RampTest {
 
     @AfterEach
     void checkStatus() {
-        assertEquals(openTracker, testInstance.isRampOpen());
+        assertEquals(openTracker, testInstance.isOpen());
     }
 }
