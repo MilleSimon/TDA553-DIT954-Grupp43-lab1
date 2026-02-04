@@ -21,15 +21,15 @@ public class VehicleTransportTest extends CarTest {
         // Make sure the instance properly initiated
         assertEquals("VehicleTransport", instanceVehicleTransport.getModelName());
 
-        assertFalse(instanceVehicleTransport.getRampStatus()); // Ramp should start closed, VehicleTransport should have getRampStatus method
-        instanceVehicleTransport.setRampStatus(true); // Attempt to open whilst in motion, VehicleTransport should have setRampStatus method
-        assertFalse(instanceVehicleTransport.getRampStatus()); // Make sure that the ramp could not be opened whilst in motion
+        assertFalse(instanceVehicleTransport.ramp.isRampOpen()); // Ramp should start closed, VehicleTransport should have getRampStatus method
+        instanceVehicleTransport.ramp.open(); // Attempt to open whilst in motion, VehicleTransport should have setRampStatus method
+        assertFalse(instanceVehicleTransport.ramp.isRampOpen()); // Make sure that the ramp could not be opened whilst in motion
         Car item = new Saab95();
         assertTrue(instanceVehicleTransport.getPosition().getX()- item.getPosition().getX() <= 10);
         assertTrue(instanceVehicleTransport.getPosition().getY()- item.getPosition().getY() <= 10);
-        assertEquals(0, instanceVehicleTransport.getCurrentLoad());
+        assertEquals(0, instanceVehicleTransport.getLoadSize());
         instanceVehicleTransport.load(item);
-        assertEquals(0, instanceVehicleTransport.getCurrentLoad());
+        assertEquals(0, instanceVehicleTransport.getLoadSize());
     }
 
     @Test
@@ -39,21 +39,21 @@ public class VehicleTransportTest extends CarTest {
         Car item = new Saab95();
 
         instanceVehicleTransport.load(item);
-        assertEquals(0, instanceVehicleTransport.getCurrentLoad());
-        instanceVehicleTransport.setRampStatus(true);
-        assertTrue(instanceVehicleTransport.getRampStatus());
+        assertEquals(0, instanceVehicleTransport.getLoadSize());
+        instanceVehicleTransport.ramp.open();
+        assertTrue(instanceVehicleTransport.ramp.isRampOpen());
         assertTrue(instanceVehicleTransport.getPosition().getX()- item.getPosition().getX() <= 10);
         assertTrue(instanceVehicleTransport.getPosition().getY()- item.getPosition().getY() <= 10);
         instanceVehicleTransport.load(item);
         assertEquals(instanceVehicleTransport.getPosition().getX(), item.getPosition().getX());
         assertEquals(instanceVehicleTransport.getPosition().getY(), item.getPosition().getY());
-        assertEquals(1, instanceVehicleTransport.getCurrentLoad());
+        assertEquals(1, instanceVehicleTransport.getLoadSize());
         instanceVehicleTransport.unload();
         assertTrue(instanceVehicleTransport.getPosition().getX()- item.getPosition().getX() <= 10);
         assertTrue(instanceVehicleTransport.getPosition().getY()- item.getPosition().getY() <= 10);
-        assertEquals(0, instanceVehicleTransport.getCurrentLoad());
-        instanceVehicleTransport.setRampStatus(false);
-        assertFalse(instanceVehicleTransport.getRampStatus());
+        assertEquals(0, instanceVehicleTransport.getLoadSize());
+        instanceVehicleTransport.ramp.close();
+        assertFalse(instanceVehicleTransport.ramp.isRampOpen());
     }
     @BeforeEach
     void clearAll() {
