@@ -1,84 +1,37 @@
-import java.util.ArrayList;
-import java.util.List;
-
-public abstract class Workshop implements PickableLoad<Car>, Positionable {
-    private Ramp entrance = new Ramp();
-    private ArrayList<Car> currentLoad = new ArrayList<>();
-    private Position position;
-    private Rotation rotation;
-    private final int maxSize;
-
-    public Workshop(Position position, Rotation rotation) {
-        this.position = position;
-        this.rotation = rotation;
-        this.maxSize = 20;
-    }
+public abstract class Workshop implements PickableLoad<Car> {
 
     public boolean load(Car item) {
-        if (entrance.isOpen()) {
-            if (getPosition().getX() - item.getPosition().getX() <= 10) {
-                if (getPosition().getY() - item.getPosition().getY() <= 10) {
-                    currentLoad.add(item);
-                    return true;
-                }
-            }
-        }
+        // TODO
         return false;
     }
 
     public Car[] unload(int amount) {
-        if (currentLoad.isEmpty()) {
-            return null;
-        }
-        if (entrance.isOpen()) {
-            List<Car> unloaded = new ArrayList<>();
-            for(int i = 0;i < amount;i++) {
-                Car item = currentLoad.getLast();
-                unloaded.add(item);
-                currentLoad.removeLast();
-            }
-            return unloaded.toArray(new Car[0]);
-        }
+        // TODO
         return null;
     }
 
     public boolean findItemInLoad(Car item) {
-        return currentLoad.contains(item);
+        // TODO
+        return false;
     }
 
     public Car[] getCurrentLoad() {
-        return currentLoad.toArray(new Car[0]);
+        // TODO
+        return new Car[0];
     }
 
     public int getLoadSize() {
-        return currentLoad.size();
+        // TODO
+        return 0;
     }
 
     public int getMaxSize() {
-        return maxSize;
+        // TODO
+        return 0;
     }
 
-    public Car pick(Car desiredCar) {
-        for (Car car : currentLoad) {
-            if (car == desiredCar) {
-                currentLoad.remove(desiredCar);
-                return desiredCar;
-            }
-        }
+    public Car pick(Car item) {
+        // TODO
         return null;
-    }
-
-    public Position getPosition() { return position; }
-
-    public Rotation getRotation() { return rotation; }
-
-    public boolean setPosition(Position position) {
-        this.position = position;
-        return true;
-    }
-
-    public boolean setRotation(Rotation rotation) {
-        this.rotation = rotation;
-        return true;
     }
 }
