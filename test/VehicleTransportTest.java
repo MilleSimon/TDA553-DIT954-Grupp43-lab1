@@ -5,6 +5,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class VehicleTransportTest extends CarTest {
 
@@ -21,9 +22,9 @@ public class VehicleTransportTest extends CarTest {
         // Make sure the instance properly initiated
         assertEquals("VehicleTransport", instanceVehicleTransport.getModelName());
 
-        assertFalse(instanceVehicleTransport.ramp.isRampOpen()); // Ramp should start closed, VehicleTransport should have getRampStatus method
-        instanceVehicleTransport.ramp.open(); // Attempt to open whilst in motion, VehicleTransport should have setRampStatus method
-        assertFalse(instanceVehicleTransport.ramp.isRampOpen()); // Make sure that the ramp could not be opened whilst in motion
+        assertFalse(instanceVehicleTransport.isRampOpen()); // Ramp should start closed, VehicleTransport should have getRampStatus method
+        instanceVehicleTransport.openRamp(); // Attempt to open whilst in motion, VehicleTransport should have setRampStatus method
+        assertFalse(instanceVehicleTransport.isRampOpen()); // Make sure that the ramp could not be opened whilst in motion
         Car item = new Saab95();
         assertTrue(instanceVehicleTransport.getPosition().getX()- item.getPosition().getX() <= 10);
         assertTrue(instanceVehicleTransport.getPosition().getY()- item.getPosition().getY() <= 10);
@@ -40,8 +41,8 @@ public class VehicleTransportTest extends CarTest {
 
         instanceVehicleTransport.load(item);
         assertEquals(0, instanceVehicleTransport.getLoadSize());
-        instanceVehicleTransport.ramp.open();
-        assertTrue(instanceVehicleTransport.ramp.isRampOpen());
+        instanceVehicleTransport.openRamp();
+        assertTrue(instanceVehicleTransport.isRampOpen());
         assertTrue(instanceVehicleTransport.getPosition().getX()- item.getPosition().getX() <= 10);
         assertTrue(instanceVehicleTransport.getPosition().getY()- item.getPosition().getY() <= 10);
         instanceVehicleTransport.load(item);
@@ -52,8 +53,8 @@ public class VehicleTransportTest extends CarTest {
         assertTrue(instanceVehicleTransport.getPosition().getX()- item.getPosition().getX() <= 10);
         assertTrue(instanceVehicleTransport.getPosition().getY()- item.getPosition().getY() <= 10);
         assertEquals(0, instanceVehicleTransport.getLoadSize());
-        instanceVehicleTransport.ramp.close();
-        assertFalse(instanceVehicleTransport.ramp.isRampOpen());
+        instanceVehicleTransport.closeRamp();
+        assertFalse(instanceVehicleTransport.isRampOpen());
     }
     @BeforeEach
     void clearAll() {
@@ -69,13 +70,14 @@ public class VehicleTransportTest extends CarTest {
     @Test
     void loadRemoveItem() {
         VehicleTransport instanceVehicleTransport = new VehicleTransport();
+        instanceVehicleTransport.openRamp();
         Car item = new Saab95();
         boolean isIn = instanceVehicleTransport.load(item);
         if (!isIn) {
             fail("Could not put item in Loadable");
         }
 
-        Car returnItem = instanceVehicleTransport.unload(1);
+        Car returnItem = instanceVehicleTransport.unload(1)[0];
         assertEquals(item, returnItem);
     }
 
@@ -84,9 +86,11 @@ public class VehicleTransportTest extends CarTest {
     void loadRemoveItems(int offsetSizes) {
         // Load the maximum amount of cars
         VehicleTransport instanceVehicleTransport = new VehicleTransport();
-        ArrayList<Car> allItems = new ArrayList<>();
+        instanceVehicleTransport.openRamp();
+        ArrayList<Car> allItems = new ArrayList<Car>();
         for (int i = 0; i < instanceVehicleTransport.getMaxSize() + offsetSizes; i++) {
             allItems.add(new Saab95());
+            System.out.println(allItems.size());
         }
 
         ArrayList<Car> successfulItems = new ArrayList<>();
@@ -94,29 +98,30 @@ public class VehicleTransportTest extends CarTest {
         boolean allIn = true;
         for (Car car : allItems) {
             boolean isIn = instanceVehicleTransport.load(car);
-            successfulItems.add(car);
-            if (!isIn) {
+            if (isIn) {
+                successfulItems.add(car);
+            } else if (allIn) {
                 allIn = false;
             }
             if (!isIn && offsetSizes <= 0) {
                 fail("Expected to successfully put item in loadable but loadable refused");
             }
         }
-        if (!allIn && offsetSizes > 0) {
+        if (allIn && offsetSizes > 0) {
             fail("Expected at least one item to be refused by loadable but loadable allowed all items");
         }
 
-        ArrayList<Car> returnitems = new ArrayList<>();
-        for (int i = 0; i < allItems.size(); i++) {
-            returnitems.add(instanceVehicleTransport.unload(1));
+        ArrayList<Car> returnItems = new ArrayList<>();
+        for (int i = 0; i < allItems.size() - Math.max(offsetSizes, 0); i++) {
+            returnItems.add(instanceVehicleTransport.unload(1)[0]);
         }
-        returnitems = (ArrayList<Car>) returnitems.reversed();
-        if (successfulItems.size() != returnitems.size()) {
+        Collections.reverse(returnItems);
+        if (successfulItems.size() != returnItems.size()) {
             fail("The amount of removed items does not correspond to the amount of successfully loaded items");
         }
         for (int i = 0; i < successfulItems.size(); i++) {
-            if (successfulItems.get(i) != returnitems.get(i))
-                fail("Expected " + successfulItems.get(i).toString() + " on order " + i + " got " + returnitems.get(i));
+            if (successfulItems.get(i) != returnItems.get(i))
+                fail("Expected " + successfulItems.get(i).toString() + " on order " + i + " got " + returnItems.get(i));
         }
     }
 }
