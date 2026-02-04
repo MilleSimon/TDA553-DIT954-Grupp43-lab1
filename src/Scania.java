@@ -6,24 +6,29 @@ public class Scania extends Car {
 
     public Scania(){
         super(2, 50, Color.gray, "Scania");
-        ramp = new DegreeRamp();
+        ramp = new DegreeRamp(70);
     }
 
-    public int getRampAngle() {
-        return ramp.getAngle();
-    }
-    public void liftRamp(int angle) {
-        if (ramp.getAngle() + angle < 70) {
+     @Override
+     public void startEngine(){
+        if (!ramp.isOpen) {
+            super.startEngine();
+        }
+     }
+
+    public void raiseFlatBed(int angle) {
+        if (this.getCurrentSpeed() == 0 ) {
             ramp.lift(angle);
-        } else {
-            ramp.lift(70 - ramp.getAngle());
         }
     }
-    public void lowerRamp(int angle) {
-        if (ramp.getAngle() - angle > 0) {
+
+    public void lowerFlatBed(int angle) {
+        if (this.getCurrentSpeed()  == 0 ) {
             ramp.lower(angle);
-        } else {
-            ramp.lower(ramp.getAngle());
         }
+    }
+
+    public int getFlatBedAngle() {
+        return ramp.getAngle();
     }
 }
