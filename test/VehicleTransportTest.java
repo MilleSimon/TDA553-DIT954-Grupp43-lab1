@@ -48,7 +48,7 @@ public class VehicleTransportTest extends CarTest {
         assertEquals(instanceVehicleTransport.getPosition().getX(), item.getPosition().getX());
         assertEquals(instanceVehicleTransport.getPosition().getY(), item.getPosition().getY());
         assertEquals(1, instanceVehicleTransport.getLoadSize());
-        instanceVehicleTransport.unload();
+        instanceVehicleTransport.unload(1);
         assertTrue(instanceVehicleTransport.getPosition().getX()- item.getPosition().getX() <= 10);
         assertTrue(instanceVehicleTransport.getPosition().getY()- item.getPosition().getY() <= 10);
         assertEquals(0, instanceVehicleTransport.getLoadSize());
@@ -59,7 +59,7 @@ public class VehicleTransportTest extends CarTest {
     void clearAll() {
         VehicleTransport instanceVehicleTransport = new VehicleTransport();
         for (int i = 0; i < 9999; i++) {
-            instanceVehicleTransport.unload();
+            instanceVehicleTransport.unload(1);
             if (instanceVehicleTransport.getLoadSize() == 0)
                 return;
         }
@@ -75,7 +75,7 @@ public class VehicleTransportTest extends CarTest {
             fail("Could not put item in Loadable");
         }
 
-        Car returnItem = instanceVehicleTransport.unload();
+        Car returnItem = instanceVehicleTransport.unload(1);
         assertEquals(item, returnItem);
     }
 
@@ -108,7 +108,7 @@ public class VehicleTransportTest extends CarTest {
 
         ArrayList<Car> returnitems = new ArrayList<>();
         for (int i = 0; i < allItems.size(); i++) {
-            returnitems.add(instanceVehicleTransport.unload());
+            returnitems.add(instanceVehicleTransport.unload(1));
         }
         returnitems = (ArrayList<Car>) returnitems.reversed();
         if (successfulItems.size() != returnitems.size()) {

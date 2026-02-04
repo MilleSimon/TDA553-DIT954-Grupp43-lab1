@@ -32,17 +32,21 @@ public class VehicleTransport extends Car implements Loadable{
     }
 
     @Override
-    public Movable unload() {
+    public Movable[] unload(int amount) {
         if (CurrentLoad.length == 0) {
             return null;
         }
         if (ramp.isRampOpen()) {
-            int size = Arrays.asList(CurrentLoad).size();
-            Movable item = Arrays.asList(CurrentLoad).getLast();
-            Arrays.asList(CurrentLoad).remove(size-1);
-            item.getPosition().setX(this.getPosition().getX() - 10);
-            item.getPosition().setY(this.getPosition().getY() - 10);
-            return item;
+            Movable[] unloaded = new Movable[0];
+            for(int i = 0;i < amount;i++) {
+                int size = Arrays.asList(CurrentLoad).size();
+                Movable item = Arrays.asList(CurrentLoad).getLast();
+                Arrays.asList(itemlist).add(item);
+                Arrays.asList(CurrentLoad).remove(size-1);
+                item.getPosition().setX(this.getPosition().getX() - 10);
+                item.getPosition().setY(this.getPosition().getY() - 10);
+            }
+            return unloaded;
         }
         return null;
     }
