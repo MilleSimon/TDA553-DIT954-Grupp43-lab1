@@ -1,18 +1,34 @@
 import java.awt.*;
 
-public class Scania extends Car{
+public class Scania extends Car {
+
+    final private DegreeRamp ramp;
+
     public Scania(){
         super(2, 50, Color.gray, "Scania");
+        ramp = new DegreeRamp(70);
     }
 
-    public int getRampAngle() {
-        // TODO
-        return -1;
+     @Override
+     public void startEngine(){
+        if (!ramp.isOpen()) {
+            super.startEngine();
+        }
+     }
+
+    public void raiseFlatBed(int angle) {
+        if (this.getCurrentSpeed() == 0 ) {
+            ramp.lift(angle);
+        }
     }
-    public void liftRamp(int angle) {
-        // TODO
+
+    public void lowerFlatBed(int angle) {
+        if (this.getCurrentSpeed()  == 0 ) {
+            ramp.lower(angle);
+        }
     }
-    public void lowerRamp(int angle) {
-        // TODO
+
+    public int getFlatBedAngle() {
+        return ramp.getAngle();
     }
 }
