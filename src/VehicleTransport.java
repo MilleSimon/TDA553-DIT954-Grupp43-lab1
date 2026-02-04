@@ -1,10 +1,12 @@
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
-public class VehicleTransport extends Car implements Loadable{
-    final protected Ramp ramp;
-    protected Movable[] CurrentLoad = new Movable[0];
+public class VehicleTransport extends Car implements Loadable<Car>{
+    final private Ramp ramp;
+    protected List<Car> CurrentLoad = new ArrayList<Car>();
     private final int MaxSize;
     public VehicleTransport() {
         super(2, 50, Color.white, "VehicleTransport");
@@ -12,15 +14,15 @@ public class VehicleTransport extends Car implements Loadable{
         ramp = new Ramp();
     }
 
-    @Override
-    public boolean load(Movable item) {
+    public boolean load(Car item) {
         if (getCurrentSpeed() == 0) {
-            if (ramp.isRampOpen()) {
+            if (ramp.isOpen()) {
                 if (getPosition().getX() - item.getPosition().getX() <= 10) {
                     if (getPosition().getY() - item.getPosition().getY() <= 10) {
-                        if (item.getModelName() != "VehicleTransport") {
-                            if (CurrentLoad.length < MaxSize) {
-                                Arrays.asList(CurrentLoad).add(item);
+                        if (!Objects.equals(item.getModelName(), "VehicleTransport")) {
+                            if (CurrentLoad.size() < MaxSize) {
+                                System.out.println("Competing at: " + CurrentLoad.size() + ":" + MaxSize);
+                                CurrentLoad.add(item);
                                 return true;
                             }
                         }
@@ -28,42 +30,64 @@ public class VehicleTransport extends Car implements Loadable{
                 }
             }
         }
+        System.out.println("Failed successfully for size: " + CurrentLoad.size() + ":" + MaxSize);
         return false;
     }
 
-    @Override
-    public Movable[] unload(int amount) {
-        if (CurrentLoad.length == 0) {
+    public Car[] unload(int amount) {
+        if (CurrentLoad.isEmpty()) {
             return null;
         }
-        if (ramp.isRampOpen()) {
-            Movable[] unloaded = new Movable[0];
+        if (ramp.isOpen()) {
+            List<Car> unloaded = new ArrayList<>();
             for(int i = 0;i < amount;i++) {
-                int size = Arrays.asList(CurrentLoad).size();
-                Movable item = Arrays.asList(CurrentLoad).getLast();
-                Arrays.asList(itemlist).add(item);
-                Arrays.asList(CurrentLoad).remove(size-1);
+                Car item = CurrentLoad.getLast();
+                unloaded.add(item);
+                CurrentLoad.removeLast();
                 item.getPosition().setX(this.getPosition().getX() - 10);
                 item.getPosition().setY(this.getPosition().getY() - 10);
             }
-            return unloaded;
+            return unloaded.toArray(new Car[0]);
         }
         return null;
     }
 
+    public void openRamp() {
+        if (this.getCurrentSpeed() == 0 ) {
+            ramp.open();
+        }
+    }
+
+    public void closeRamp() {
+        if (this.getCurrentSpeed()  == 0 ) {
+            ramp.close();
+        }
+    }
+
+    public boolean isRampOpen() {
+        return ramp.isOpen();
+    }
+
     @Override
-    public boolean findItemInLoad(Movable item) {
+    public void startEngine(){
+        if (!ramp.isOpen()) {
+            super.startEngine();
+        }
+    }
+
+    @Override
+    public boolean findItemInLoad(Car item) {
         return List.of(CurrentLoad).contains(item);
     }
 
     @Override
-    public Movable[] getCurrentLoad() {
-        return CurrentLoad;
+    public Car[] getCurrentLoad() {
+        return CurrentLoad.toArray(new Car[0]);
     }
 
     @Override
     public int getLoadSize() {
-        return CurrentLoad.length;
+        return CurrentLoad.size();
     }
 
     @Override
