@@ -3,7 +3,7 @@
  * @param <E> Any class that implements Movable interface
  */
 // TODO: Update so that Loadable does not rely on Movable, see issue #18
-public interface Loadable<E extends Movable> {
+public interface Loadable<E extends Positionable> {
     /**
      * Load a new item into the loadable, will refuse if it is full.
      * @param item the item being put in the load.
