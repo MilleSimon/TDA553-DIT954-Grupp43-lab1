@@ -14,7 +14,7 @@ public interface Loadable<E extends Movable> {
      * Unload an item from the loadable, will return the removed item.
      * @return The unloaded item.
      */
-    E unload(E item);
+    E[] unload(int amount);
     /**
      * Look for specified item in the loadable.
      * @return true if item found, false if not.
