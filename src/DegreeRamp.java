@@ -12,14 +12,11 @@ public class DegreeRamp extends Ramp{
      * @return true if ramp is opened, false if it is unable to
      */
     public boolean open() {
-        if (!open) {
-            while (getAngle() < maxAngle) {
-                lift(2);
-            }
-            open = true;
-            return true;
+        while (getAngle() < maxAngle) {
+            lift(2);
         }
-        return false;
+        open = true;
+        return true;
     }
 
     /**
@@ -27,14 +24,11 @@ public class DegreeRamp extends Ramp{
      * @return true if ramp is closed, false if it is unable to
      */
     public boolean close() {
-        if (open) {
-            while (getAngle() > 0) {
-                lower(2);
-            }
-            open = false;
-            return true;
+        while (getAngle() > 0) {
+            lower(2);
         }
-        return false;
+        open = false;
+        return true;
     }
 
     /**
