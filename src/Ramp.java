@@ -3,30 +3,30 @@
  */
 public class Ramp {
 
+    private boolean open = false;
     /**
      * Open the ramp. Returns a bool specifying if the ramp has successfully opened, or it is already open.
-     * @return Returns true if ramp is open, false if it is unable to.
+     * @return true if ramp is opened, false if it is unable to
      */
     public boolean open() {
-        // TODO
-        return false;
+        open = true;
+        return true;
     }
 
     /**
      * Close the ramp. Returns a bool specifying if the ramp has successfully closed, or it is already closed.
-     * @return Returns true if ramp is closed, false if it is unable to.
+     * @return true if ramp is closed, false if it is unable to
      */
     public boolean close() {
-        // TODO
-        return false;
+        open = false;
+        return true;
     }
 
     /***
-     * Gets if the current state of the ramp is open or closed.
-     * @return returns true if the ramp is open, false if the ramp is closed
+     * Gets the current state of the ramp
+     * @return true if the ramp is open, false if the ramp is closed
      */
-    public boolean isRampOpen() {
-        // TODO
-        return false;
+    public boolean isOpen() {
+        return open;
     }
 }
