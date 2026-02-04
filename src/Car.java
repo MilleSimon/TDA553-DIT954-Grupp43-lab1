@@ -1,6 +1,6 @@
 import java.awt.*;
 
-public abstract class Car implements Movable {
+public abstract class Car implements Movable,Positionable {
 
     private final int nrDoors; // Number of doors on the car
     private final double enginePower; // Engine power of the car
@@ -41,6 +41,16 @@ public abstract class Car implements Movable {
     }
 
     public Rotation getRotation() { return rotation; }
+
+    public boolean setPosition(Position position) {
+        this.position = position;
+        return true;
+    }
+
+    public boolean setRotation(Rotation rotation) {
+        this.rotation = rotation;
+        return true;
+    }
 
     public void setColor(Color clr) {
         color = clr;
