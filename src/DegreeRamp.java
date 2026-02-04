@@ -9,7 +9,7 @@ public class DegreeRamp extends Ramp{
 
     /**
      * Open the ramp. In the case of the degree based ramp, this is equivalent to dumping it
-     * @return true if ramp is opened, false if it is unable to or already is.
+     * @return true if ramp is opened, false if it is unable to
      */
     public boolean open() {
         if (!open) {
@@ -24,7 +24,7 @@ public class DegreeRamp extends Ramp{
 
     /**
      * Close the ramp. Returns a bool specifying if the ramp has successfully closed, or it is already closed.
-     * @return true if ramp is closed, false if it is unable to or already is.
+     * @return true if ramp is closed, false if it is unable to
      */
     public boolean close() {
         if (open) {
