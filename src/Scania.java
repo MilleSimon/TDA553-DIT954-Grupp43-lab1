@@ -11,7 +11,7 @@ public class Scania extends Car {
 
      @Override
      public void startEngine(){
-        if (!ramp.isOpen) {
+        if (!ramp.isOpen()) {
             super.startEngine();
         }
      }
