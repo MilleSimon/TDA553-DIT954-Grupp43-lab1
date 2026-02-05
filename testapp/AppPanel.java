@@ -1,11 +1,12 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.util.Objects;
+import java.util.ArrayList;
 
 public class AppPanel extends JPanel {
     private Position position;
     private Car car;
+    private ArrayList<Car> cars = new ArrayList<>();
     private int gasAmount;
     private int brakeAmount;
     private volatile boolean[] directionInput = {false,false,false,false}; // Up, Down, Left, Right - UDLR Format (Boolean Movement Controls)
@@ -28,8 +29,11 @@ public class AppPanel extends JPanel {
         inputMap.put(KeyStroke.getKeyStroke("released D"), "keyRelD");
         inputMap.put(KeyStroke.getKeyStroke("released E"), "keyRelE");
         inputMap.put(KeyStroke.getKeyStroke(27,0), "keyESC");
+        inputMap.put(KeyStroke.getKeyStroke(9,0), "keyTAB");
         inputMap.put(KeyStroke.getKeyStroke(37,0), "keySWITCH");
         inputMap.put(KeyStroke.getKeyStroke(39,0), "keySWITCH");
+        inputMap.put(KeyStroke.getKeyStroke(38,0), "keySWAP");
+        inputMap.put(KeyStroke.getKeyStroke(40,0), "keySWAP");
 
         actionMap.put("keyW", new AbstractAction() {
             @Override
@@ -92,10 +96,22 @@ public class AppPanel extends JPanel {
                 exit();
             }
         });
+        actionMap.put("keyTAB", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                addVehicle();
+            }
+        });
+        actionMap.put("keySWAP", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                swapVehicle();
+            }
+        });
         actionMap.put("keySWITCH", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e){
-                switchVehicle();
+                switchModel();
             }
         });
 
@@ -124,18 +140,31 @@ public class AppPanel extends JPanel {
         g.drawString("Speed: " + car.getCurrentSpeed(), 0, 100);
         g.drawString("Gas: " + gasAmount, 0, 150);
         g.drawString("Brake: " + brakeAmount, 0, 200);
-        g.setColor(car.getColor());
-        g.fillPolygon(getAngledRect());
-        g.setColor(Color.BLACK);
+        drawCar(g);
+        drawCars(g);
         Toolkit.getDefaultToolkit().sync();
     }
 
-    public Polygon getAngledRect() {
+    public void drawCar(Graphics g) {
+        g.setColor(car.getColor());
+        g.fillPolygon(getAngledRect(car.getPosition()));
+        g.setColor(Color.BLACK);
+    }
+
+    public void drawCars(Graphics g) {
+        for (Car car : cars ) {
+            g.setColor(car.getColor());
+            g.fillPolygon(getAngledRect(car.getPosition()));
+            g.setColor(Color.BLACK);
+        }
+    }
+
+    public Polygon getAngledRect(Position position) {
         int width = 20;
         int length = 80;
         Position directionVector = car.getRotation().getDirectionVector();
-        double x = position.getX();
-        double y = position.getY();
+        double x = position.getX()/scalingFactor;
+        double y = position.getY()/scalingFactor;
         double dirVecX = directionVector.getX();
         double dirVecY = directionVector.getY();
         Position[] frontPositions = {new Position(x + (-1*dirVecY*width), y + (dirVecX*width)),new Position (x + (dirVecY*width), y + (-1*dirVecX*width))}; //Using the dot product rule as it avoids the Maths library and trigonometry and I forgot the trig rules for it
@@ -189,16 +218,45 @@ public class AppPanel extends JPanel {
         }
     }
 
-    private void switchVehicle() {
+    private void addVehicle() {
+        cars.addLast(car);
+        car = new Volvo240();
+        car.setPosition(findEligibleSpawn());
+    }
+
+    private void swapVehicle() {
+        if (!cars.isEmpty()) {
+            cars.addLast(car);
+        }
+        car = cars.getFirst();
+    }
+
+    private void switchModel() {
         Rotation previousRotation = car.getRotation();
-        if (Objects.equals(car.getModelName(), "Volvo240")) {
-            car = new Saab95();
-        } else {
-            car = new Volvo240();
+        switch (car.getModelName()) {
+            case "Volvo240" -> car = new Saab95();
+            case "Saab95" -> car = new Scania();
+            case "Scania" -> car = new VehicleTransport();
+            case null, default -> car = new Volvo240();
         }
         car.getPosition().setX(position.getX()*scalingFactor);
         car.getPosition().setY(position.getY()*scalingFactor);
         car.getRotation().setRotation(previousRotation.getRotation());
+    }
+
+    private Position findEligibleSpawn() {
+        Position newPosition = new Position(0,0);
+        if (position.getX() - 100 > 100) {
+            newPosition.setX((position.getX() - 100)*scalingFactor);
+        } else {
+            newPosition.setX((position.getX() + 100)*scalingFactor);
+        }
+        if (position.getY() - 100 > 100) {
+            newPosition.setY((position.getY() - 100)*scalingFactor);
+        } else {
+            newPosition.setY((position.getY() + 100)*scalingFactor);
+        }
+        return newPosition;
     }
 
     public void exit() {
