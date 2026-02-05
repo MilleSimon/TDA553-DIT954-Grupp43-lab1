@@ -79,4 +79,10 @@ public abstract class Workshop implements PickableLoad<Car>, Positionable {
         this.rotation = rotation;
         return true;
     }
+
+    public void updateItemPositions() {
+        for (Car item : currentLoad) {
+            item.setPosition(getPosition());
+        }
+    }
 }
