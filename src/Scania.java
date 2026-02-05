@@ -5,7 +5,7 @@ public class Scania extends Car {
     final private DegreeRamp ramp;
 
     public Scania(){
-        super(2, 50, Color.gray, "Scania");
+        super(2, 50, Color.gray, "Scania", 80);
         ramp = new DegreeRamp(70);
     }
 
