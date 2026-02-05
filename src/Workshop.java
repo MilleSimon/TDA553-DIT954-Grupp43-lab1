@@ -81,8 +81,8 @@ public abstract class Workshop implements PickableLoad<Car>, Positionable {
     }
 
     public void updateItemPositions() {
-        for (Car car : currentLoad) {
-            car.setPosition(position);
+        for (Car item : currentLoad) {
+            item.setPosition(getPosition());
         }
     }
 }
