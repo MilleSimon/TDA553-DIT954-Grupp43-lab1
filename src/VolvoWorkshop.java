@@ -6,6 +6,9 @@ public class VolvoWorkshop extends Workshop {
 
     @Override
     public boolean load(Car item) {
-
+        if (item instanceof Volvo240) {
+            return super.load(item);
+        }
+        return false;
     }
 }
