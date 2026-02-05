@@ -8,7 +8,7 @@ public class VehicleTransport extends Car implements Loadable<Car>{
     protected List<Car> CurrentLoad = new ArrayList<>();
     private final int MaxSize;
     public VehicleTransport() {
-        super(2, 50, Color.white, "VehicleTransport");
+        super(2, 50, Color.white, "VehicleTransport", 100);
         this.MaxSize = 10;
         ramp = new Ramp();
     }
@@ -16,7 +16,7 @@ public class VehicleTransport extends Car implements Loadable<Car>{
     public boolean load(Car item) {
         if (getCurrentSpeed() == 0 && ramp.isOpen()) {
             if (getPosition().withinRange(item.getPosition(), Const.range, Const.range)) {
-                if (!Objects.equals(item.getModelName(), "VehicleTransport")) {
+                if (item.getWeight() < 50) {
                     if (CurrentLoad.size() < MaxSize) {
                         System.out.println("Competing at: " + CurrentLoad.size() + ":" + MaxSize);
                         CurrentLoad.add(item);

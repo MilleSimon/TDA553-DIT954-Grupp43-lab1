@@ -10,8 +10,9 @@ public abstract class Car implements Movable,Positionable {
     private double currentSpeed; // The current speed of the car
     private Position position;
     private Rotation rotation;
+    private double weight;
 
-    public Car(int nrDoors, double enginePower, Color color, String modelName) {
+    public Car(int nrDoors, double enginePower, Color color, String modelName, double weight) {
         this.nrDoors = nrDoors;
         this.enginePower = enginePower;
         this.color = color;
@@ -35,6 +36,8 @@ public abstract class Car implements Movable,Positionable {
     public Color getColor() {
         return color;
     }
+
+    public double getWeight() { return weight; }
 
     public Position getPosition() {
         return position;
