@@ -2,7 +2,6 @@
  * Interface for classes that a maximum set of other specified classes. The class will update the movables position.
  * @param <E> Any class that implements Movable interface
  */
-// TODO: Update so that Loadable does not rely on Movable, see issue #18
 public interface Loadable<E extends Positionable> {
     /**
      * Load a new item into the loadable, will refuse if it is full.
@@ -35,4 +34,5 @@ public interface Loadable<E extends Positionable> {
      * @return the maximum load represented as an integer.
      */
     int getMaxSize();
+    void updateItemPositions();
 }
