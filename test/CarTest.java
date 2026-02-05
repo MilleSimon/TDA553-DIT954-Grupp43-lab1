@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public abstract class CarTest {
     double testInstanceReferenceSpeed;
-    Car testInstance;
+    private final Car testInstance;
 
     public CarTest(Car instance){
         this.testInstance = instance;

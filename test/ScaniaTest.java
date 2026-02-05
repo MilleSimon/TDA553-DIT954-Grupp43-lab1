@@ -3,13 +3,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ScaniaTest extends CarTest {
 
+    private final Scania instanceScania = new Scania();
+
     public ScaniaTest() {
         super(new Scania());
     }
 
     @Test
     void TestInMotion() {
-        Scania instanceScania = new Scania();
         instanceScania.startEngine();
         instanceScania.gas(1);
 
@@ -32,6 +33,11 @@ public class ScaniaTest extends CarTest {
         testAngle = instanceScania.getFlatBedAngle();
         instanceScania.lowerFlatBed(5);
         assertFalse(instanceScania.getFlatBedAngle() >= testAngle);
+
+        instanceScania.dumpFlatBed();
+        assertEquals(instanceScania.getFlatBedMaxAngle(), instanceScania.getFlatBedAngle());
+        instanceScania.levelFlatBed();
+        assertEquals(0, instanceScania.getFlatBedAngle());
     }
 
     @Test

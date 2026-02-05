@@ -28,6 +28,22 @@ public class Scania extends Car {
         }
     }
 
+    public void dumpFlatBed() {
+        if (this.getCurrentSpeed() == 0 ) {
+            ramp.open();
+        }
+    }
+
+    public void levelFlatBed() {
+        if (this.getCurrentSpeed() == 0) {
+            ramp.close();
+        }
+    }
+
+    public int getFlatBedMaxAngle() {
+        return ramp.getMaxAngle();
+    }
+
     public int getFlatBedAngle() {
         return ramp.getAngle();
     }

@@ -9,13 +9,24 @@ import java.util.Collections;
 
 public class VehicleTransportTest extends CarTest {
 
+    private final VehicleTransport instanceVehicleTransport = new VehicleTransport();
+
     public VehicleTransportTest() {
         super(new VehicleTransport());
     }
 
+    @BeforeEach
+    void clearAll() {
+        for (int i = 0; i < 9999; i++) {
+            instanceVehicleTransport.unload(1);
+            if (instanceVehicleTransport.getLoadSize() == 0)
+                return;
+        }
+        fail("Tried removing car from load but got stuck in an infinite loop");
+    }
+
     @Test
     void TestInMotion() {
-        VehicleTransport instanceVehicleTransport = new VehicleTransport();
         instanceVehicleTransport.startEngine();
         instanceVehicleTransport.gas(1);
 
@@ -35,7 +46,6 @@ public class VehicleTransportTest extends CarTest {
 
     @Test
     void TestRampBaseFunctionality() {
-        VehicleTransport instanceVehicleTransport = new VehicleTransport();
         instanceVehicleTransport.stopEngine();
         Car item = new Saab95();
 
@@ -56,20 +66,22 @@ public class VehicleTransportTest extends CarTest {
         instanceVehicleTransport.closeRamp();
         assertFalse(instanceVehicleTransport.isRampOpen());
     }
-    @BeforeEach
-    void clearAll() {
-        VehicleTransport instanceVehicleTransport = new VehicleTransport();
-        for (int i = 0; i < 9999; i++) {
-            instanceVehicleTransport.unload(1);
-            if (instanceVehicleTransport.getLoadSize() == 0)
-                return;
-        }
-        fail("Tried removing car from load but got stuck in an infinite loop");
+
+    @Test
+    void TestBaseGettersFinder() {
+        instanceVehicleTransport.openRamp();
+        Car itemV240 = new Volvo240();
+        Car itemS95 = new Saab95();
+        instanceVehicleTransport.load(itemV240);
+        instanceVehicleTransport.load(itemS95);
+
+        assertTrue(instanceVehicleTransport.findItemInLoad(itemV240));
+        assertFalse(instanceVehicleTransport.findItemInLoad(new Scania()));
+        assertArrayEquals(instanceVehicleTransport.getCurrentLoad(), new Car[] {itemV240, itemS95});
     }
 
     @Test
     void loadRemoveItem() {
-        VehicleTransport instanceVehicleTransport = new VehicleTransport();
         instanceVehicleTransport.openRamp();
         Car item = new Saab95();
         boolean isIn = instanceVehicleTransport.load(item);
@@ -85,9 +97,8 @@ public class VehicleTransportTest extends CarTest {
     @ValueSource(ints = { 5, 3, 0, -1, -4, 20 })
     void loadRemoveItems(int offsetSizes) {
         // Load the maximum amount of cars
-        VehicleTransport instanceVehicleTransport = new VehicleTransport();
         instanceVehicleTransport.openRamp();
-        ArrayList<Car> allItems = new ArrayList<Car>();
+        ArrayList<Car> allItems = new ArrayList<>();
         for (int i = 0; i < instanceVehicleTransport.getMaxSize() + offsetSizes; i++) {
             allItems.add(new Saab95());
             System.out.println(allItems.size());
