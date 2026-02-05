@@ -15,7 +15,7 @@ public abstract class Workshop implements PickableLoad<Car>, Positionable {
     }
 
     public boolean load(Car item) {
-        if (entrance.isOpen() && getPosition().withinRange(item.getPosition(), 10, 10)) {
+        if (entrance.isOpen() && getPosition().withinRange(item.getPosition(), Const.range, Const.range)) {
             currentLoad.add(item);
             return true;
         }

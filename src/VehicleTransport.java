@@ -15,7 +15,7 @@ public class VehicleTransport extends Car implements Loadable<Car>{
 
     public boolean load(Car item) {
         if (getCurrentSpeed() == 0 && ramp.isOpen()) {
-            if (getPosition().withinRange(item.getPosition(), 10, 10)) {
+            if (getPosition().withinRange(item.getPosition(), Const.range, Const.range)) {
                 if (item.getWeight() < 50) {
                     if (CurrentLoad.size() < MaxSize) {
                         System.out.println("Competing at: " + CurrentLoad.size() + ":" + MaxSize);
