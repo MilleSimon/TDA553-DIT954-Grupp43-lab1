@@ -29,6 +29,8 @@ public abstract class Workshop implements PickableLoad<Car>, Positionable {
         if (entrance.isOpen()) {
             List<Car> unloaded = new ArrayList<>();
             for(int i = 0;i < amount;i++) {
+                if (currentLoad.isEmpty())
+                    break;
                 Car item = currentLoad.getLast();
                 unloaded.add(item);
                 currentLoad.removeLast();
