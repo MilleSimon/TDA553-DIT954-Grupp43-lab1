@@ -89,4 +89,11 @@ public class VehicleTransport extends Car implements Loadable<Car>{
     public int getMaxSize() {
         return MaxSize;
     }
+
+    @Override
+    public void updateItemPositions() {
+        for (Car item : CurrentLoad) {
+            item.setPosition(getPosition());
+        }
+    }
 }
