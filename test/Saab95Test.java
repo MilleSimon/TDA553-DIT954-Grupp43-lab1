@@ -1,7 +1,9 @@
-import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 class Saab95Test extends CarTest{
+
+    private final Saab95 instanceSaab95 = new Saab95();
 
     public Saab95Test() {
         super(new Saab95());
@@ -9,15 +11,14 @@ class Saab95Test extends CarTest{
 
     @Test
     void TestSaab95() {
-        Saab95 TestInstance = new Saab95();
 
         // Make sure the instance properly initiated
-        assertEquals("Saab95", TestInstance.getModelName());
+        assertEquals("Saab95", instanceSaab95.getModelName());
 
         // Test unique trait of Saab95, turbo
-        TestInstance.setTurboOff();
-        assertEquals(1.25, TestInstance.speedFactor()); // Check default value after changing turbo state
-        TestInstance.setTurboOn();
-        assertEquals(1.25*1.3, TestInstance.speedFactor()); // Check turbo value after enabling turbo
+        instanceSaab95.setTurboOff();
+        assertEquals(1.25, instanceSaab95.speedFactor()); // Check default value after changing turbo state
+        instanceSaab95.setTurboOn();
+        assertEquals(1.25*1.3, instanceSaab95.speedFactor()); // Check turbo value after enabling turbo
     }
 }

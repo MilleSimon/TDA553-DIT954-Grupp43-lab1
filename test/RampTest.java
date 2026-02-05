@@ -1,10 +1,6 @@
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -12,7 +8,7 @@ public class RampTest {
     private final Ramp testInstance = new Ramp();
     private boolean openTracker;
 
-    private static boolean[] patternlessBooleans = new boolean[] {false, true, false, false, true, false, true, false,
+    private final boolean[] patternlessBooleans = new boolean[] {false, true, false, false, true, false, true, false,
             true, false, false, true, true, false, false, true, true, false, false, false, false, false, false, false,
             true, false, false, true, true, false, false, true, true, false, true, true, false, false, true, true, true,
             false, true, false, true, false, false, true, true, true};
@@ -52,9 +48,9 @@ public class RampTest {
     @Test
     void PatternlessOpeningClosing() {
         boolean allTrue = true;
-        for (int i = 0; i < patternlessBooleans.length; i++) {
-            allTrue = allTrue && patternlessBooleans[i] ? testInstance.open() : testInstance.close();
-            openTracker = patternlessBooleans[i];
+        for (boolean patternlessBoolean : patternlessBooleans) {
+            allTrue = allTrue && patternlessBoolean ? testInstance.open() : testInstance.close();
+            openTracker = patternlessBoolean;
         }
         assertTrue(allTrue);
     }

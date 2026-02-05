@@ -69,17 +69,17 @@ public abstract class WorkshopTest {
             fail("Expected at least one car to be refused by loadable but loadable allowed all cars");
         }
 
-        ArrayList<Car> returncars = new ArrayList<>();
+        ArrayList<Car> returnCars = new ArrayList<>();
         for (int i = 0; i < allCars.size(); i++) {
-            returncars.add(testInstance.unload(1)[0]);
+            returnCars.add(testInstance.unload(1)[0]);
         }
-        returncars = (ArrayList<Car>) returncars.reversed();
-        if (successfulCars.size() != returncars.size()) {
+        returnCars = (ArrayList<Car>) returnCars.reversed();
+        if (successfulCars.size() != returnCars.size()) {
             fail("The amount of removed cars does not correspond to the amount of successfully loaded cars");
         }
         for (int i = 0; i < successfulCars.size(); i++) {
-            if (successfulCars.get(i) != returncars.get(i))
-                fail("Expected " + successfulCars.get(i).toString() + " on order " + i + " got " + returncars.get(i));
+            if (successfulCars.get(i) != returnCars.get(i))
+                fail("Expected " + successfulCars.get(i).toString() + " on order " + i + " got " + returnCars.get(i));
         }
     }
 
