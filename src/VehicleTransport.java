@@ -1,99 +1,80 @@
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
 public class VehicleTransport extends Car implements Loadable<Car>{
-    final private Ramp ramp;
-    protected List<Car> CurrentLoad = new ArrayList<>();
-    private final int MaxSize;
+    final private Load load;
     public VehicleTransport() {
         super(2, 50, Color.white, "VehicleTransport", 100);
-        this.MaxSize = 10;
-        ramp = new Ramp();
+        load = new Load(10);
     }
 
     public boolean load(Car item) {
-        if (getCurrentSpeed() == 0 && ramp.isOpen()) {
-            if (getPosition().withinRange(item.getPosition(), Const.range, Const.range)) {
-                if (item.getWeight() < 50) {
-                    if (CurrentLoad.size() < MaxSize) {
-                        System.out.println("Competing at: " + CurrentLoad.size() + ":" + MaxSize);
-                        CurrentLoad.add(item);
-                        return true;
-                    }
-                }
-            }
+        if (getCurrentSpeed() == 0) {
+            return load.load(item);
         }
-        System.out.println("Failed successfully for size: " + CurrentLoad.size() + ":" + MaxSize);
         return false;
     }
 
     public Car[] unload(int amount) {
-        if (CurrentLoad.isEmpty()) {
-            return null;
-        }
-        if (ramp.isOpen()) {
-            List<Car> unloaded = new ArrayList<>();
-            for(int i = 0;i < amount;i++) {
-                Car item = CurrentLoad.getLast();
-                unloaded.add(item);
-                CurrentLoad.removeLast();
-                item.getPosition().setX(this.getPosition().getX() - 10);
-                item.getPosition().setY(this.getPosition().getY() - 10);
-            }
-            return unloaded.toArray(new Car[0]);
-        }
-        return null;
+        return load.unload(amount);
     }
 
     public void openRamp() {
         if (this.getCurrentSpeed() == 0 ) {
-            ramp.open();
+            load.openRamp();
         }
     }
 
     public void closeRamp() {
         if (this.getCurrentSpeed()  == 0 ) {
-            ramp.close();
+            load.closeRamp();
         }
     }
 
     public boolean isRampOpen() {
-        return ramp.isOpen();
+        return load.isRampOpen();
     }
 
     @Override
     public void startEngine(){
-        if (!ramp.isOpen()) {
+        if (!load.isRampOpen()) {
             super.startEngine();
         }
     }
 
     @Override
+    public void move() {
+        Position position;
+        Position dirVec = getRotation().getDirectionVector();
+        double newX = getPosition().getX() + dirVec.getX() * getCurrentSpeed();
+        double newY = getPosition().getY() + dirVec.getY() * getCurrentSpeed();
+        position = new Position(newX, newY);
+        setPosition(position);
+        load.setPosition(position);
+        load.updateItemPositions();
+    }
+
+    @Override
     public boolean findItemInLoad(Car item) {
-        return CurrentLoad.contains(item);
+        return load.findItemInLoad(item);
     }
 
     @Override
     public Car[] getCurrentLoad() {
-        return CurrentLoad.toArray(new Car[0]);
+        return load.getCurrentLoad();
     }
 
     @Override
     public int getLoadSize() {
-        return CurrentLoad.size();
+        return load.getLoadSize();
     }
 
     @Override
     public int getMaxSize() {
-        return MaxSize;
+        return load.getMaxSize();
     }
 
     @Override
     public void updateItemPositions() {
-        for (Car item : CurrentLoad) {
-            item.setPosition(getPosition());
-        }
+        load.updateItemPositions();
     }
 }
