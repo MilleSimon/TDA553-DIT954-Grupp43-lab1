@@ -1,12 +1,11 @@
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
 public class VehicleTransport extends Car implements Loadable<Car>{
     final private Ramp ramp;
-    protected List<Car> CurrentLoad = new ArrayList<Car>();
+    protected List<Car> CurrentLoad = new ArrayList<>();
     private final int MaxSize;
     public VehicleTransport() {
         super(2, 50, Color.white, "VehicleTransport");
@@ -15,17 +14,13 @@ public class VehicleTransport extends Car implements Loadable<Car>{
     }
 
     public boolean load(Car item) {
-        if (getCurrentSpeed() == 0) {
-            if (ramp.isOpen()) {
-                if (getPosition().getX() - item.getPosition().getX() <= 10) {
-                    if (getPosition().getY() - item.getPosition().getY() <= 10) {
-                        if (!Objects.equals(item.getModelName(), "VehicleTransport")) {
-                            if (CurrentLoad.size() < MaxSize) {
-                                System.out.println("Competing at: " + CurrentLoad.size() + ":" + MaxSize);
-                                CurrentLoad.add(item);
-                                return true;
-                            }
-                        }
+        if (getCurrentSpeed() == 0 && ramp.isOpen()) {
+            if (getPosition().withinRange(item.getPosition(), 10, 10)) {
+                if (!Objects.equals(item.getModelName(), "VehicleTransport")) {
+                    if (CurrentLoad.size() < MaxSize) {
+                        System.out.println("Competing at: " + CurrentLoad.size() + ":" + MaxSize);
+                        CurrentLoad.add(item);
+                        return true;
                     }
                 }
             }
@@ -77,7 +72,7 @@ public class VehicleTransport extends Car implements Loadable<Car>{
 
     @Override
     public boolean findItemInLoad(Car item) {
-        return List.of(CurrentLoad).contains(item);
+        return CurrentLoad.contains(item);
     }
 
     @Override

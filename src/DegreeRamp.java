@@ -62,6 +62,10 @@ public class DegreeRamp extends Ramp{
         return angle;
     }
 
+    public int getMaxAngle() {
+        return maxAngle;
+    }
+
     private void updateOpenStatus() {
         if (angle > 0 && !open) {
             open = true;
