@@ -80,6 +80,14 @@ public abstract class Workshop implements PickableLoad<Car>, Positionable {
         return true;
     }
 
+    public void openDoors() {
+        entrance.open();
+    }
+
+    public void closeDoors() {
+        entrance.close();
+    }
+
     public void updateItemPositions() {
         for (Car item : currentLoad) {
             item.setPosition(getPosition());

@@ -1,3 +1,3 @@
 public class Const {
-    public static final double range = 20;
+    public static final double range = 150;
 }
