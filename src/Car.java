@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public abstract class Car implements Movable,Positionable {
 
@@ -6,6 +7,7 @@ public abstract class Car implements Movable,Positionable {
     private final double enginePower; // Engine power of the car
     private final String modelName; // The car model name
     private final double rotationSpeed; // Rotation angle per turn
+    private BufferedImage image;
     private Color color; // Color of the car
     private double currentSpeed; // The current speed of the car
     private Position position;
@@ -38,6 +40,10 @@ public abstract class Car implements Movable,Positionable {
     }
 
     public double getWeight() { return weight; }
+
+    public void setImage(BufferedImage image) {this.image = image;}
+
+    public BufferedImage getImage() {return image; }
 
     public Position getPosition() {
         return position;

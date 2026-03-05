@@ -1,12 +1,22 @@
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
-public class Scania extends Car {
+public class Scania extends Car implements FlatbedCar{
 
     final private DegreeRamp ramp;
 
     public Scania(){
         super(2, 50, Color.gray, "Scania", 80);
         ramp = new DegreeRamp(70);
+        try {
+            BufferedImage image = ImageIO.read(Scania.class.getResourceAsStream("pics/Scania.jpg"));
+            setImage(image);
+
+        } catch (IOException e){
+            e.printStackTrace();
+        }
     }
 
      @Override

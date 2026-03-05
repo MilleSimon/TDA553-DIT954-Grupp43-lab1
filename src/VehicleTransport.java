@@ -1,9 +1,8 @@
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
-public class VehicleTransport extends Car implements Loadable<Car>{
+public class VehicleTransport extends Car implements Loadable<Car>, RampCar{
     final private Ramp ramp;
     protected List<Car> CurrentLoad = new ArrayList<>();
     private final int MaxSize;
