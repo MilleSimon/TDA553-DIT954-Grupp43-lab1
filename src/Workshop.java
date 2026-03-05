@@ -1,3 +1,4 @@
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,6 +8,7 @@ public abstract class Workshop implements PickableLoad<Car>, Positionable {
     private Position position;
     private Rotation rotation;
     private final int maxSize;
+    private BufferedImage image;
 
     public Workshop(Position position, Rotation rotation) {
         this.position = position;
@@ -55,6 +57,10 @@ public abstract class Workshop implements PickableLoad<Car>, Positionable {
     public int getMaxSize() {
         return maxSize;
     }
+
+    public void setImage(BufferedImage image) { this.image = image; }
+
+    public BufferedImage getImage() { return image; }
 
     public Car pick(Car desiredCar) {
         for (Car car : currentLoad) {
