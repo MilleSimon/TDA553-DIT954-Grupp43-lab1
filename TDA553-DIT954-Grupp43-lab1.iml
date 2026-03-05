@@ -12,7 +12,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src/compHelpers" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
-    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="sourceFolder" forTests="true" />
     <orderEntry type="module-library">
       <library name="JUnit6">
         <CLASSES>

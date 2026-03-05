@@ -1,6 +1,9 @@
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
-public class Scania extends Car {
+public class Scania extends Car implements FlatbedCar{
 
     final private DegreeRamp ramp;
 
@@ -11,7 +14,7 @@ public class Scania extends Car {
 
      @Override
      public void startEngine(){
-        if (!ramp.isOpen()) {
+        if (!ramp.isOpen() && getFlatBedAngle() == 0) {
             super.startEngine();
         }
      }
@@ -46,5 +49,15 @@ public class Scania extends Car {
 
     public int getFlatBedAngle() {
         return ramp.getAngle();
+    }
+
+    @Override
+    protected BufferedImage fetchImage() {
+        try {
+            return ImageIO.read(Car.class.getResourceAsStream("pics/Scania.jpg"));
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return null;
     }
 }

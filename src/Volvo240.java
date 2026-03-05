@@ -1,4 +1,7 @@
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 public class Volvo240 extends Car{
 
@@ -11,5 +14,15 @@ public class Volvo240 extends Car{
     @Override
     protected double speedFactor(){
         return getEnginePower() * 0.01 * trimFactor;
+    }
+
+    @Override
+    protected BufferedImage fetchImage() {
+        try {
+            return ImageIO.read(Car.class.getResourceAsStream("pics/Volvo240.jpg"));
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return null;
     }
 }

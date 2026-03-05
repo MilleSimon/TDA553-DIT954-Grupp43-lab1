@@ -1,4 +1,6 @@
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class VehicleTransport extends Car implements Loadable<Car>{
     final private Load load;
@@ -76,5 +78,15 @@ public class VehicleTransport extends Car implements Loadable<Car>{
     @Override
     public void updateItemPositions() {
         load.updateItemPositions();
+    }
+
+    @Override
+    protected BufferedImage fetchImage() {
+        try {
+            return ImageIO.read(Car.class.getResourceAsStream("MISSING"));
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return null;
     }
 }

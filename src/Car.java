@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public abstract class Car implements Movable,Positionable {
 
@@ -11,6 +12,7 @@ public abstract class Car implements Movable,Positionable {
     private Position position;
     private Rotation rotation;
     private double weight;
+    private BufferedImage image;
 
     public Car(int nrDoors, double enginePower, Color color, String modelName, double weight) {
         this.nrDoors = nrDoors;
@@ -21,6 +23,8 @@ public abstract class Car implements Movable,Positionable {
         this.rotation = new Rotation(0);
         this.rotationSpeed = Math.toRadians(4);
         stopEngine();
+
+        this.image = fetchImage();
     }
 
     public int getNrDoors() { return nrDoors; }
@@ -38,6 +42,12 @@ public abstract class Car implements Movable,Positionable {
     }
 
     public double getWeight() { return weight; }
+
+    public void setImage(BufferedImage image) {this.image = image;}
+
+    public BufferedImage getImage() {return image; }
+
+    abstract protected BufferedImage fetchImage();
 
     public Position getPosition() {
         return position;
@@ -113,6 +123,4 @@ public abstract class Car implements Movable,Positionable {
     private void decrementSpeed(double amount){
         currentSpeed = Math.max(getCurrentSpeed() - speedFactor() * amount,0);
     }
-
-
 }
