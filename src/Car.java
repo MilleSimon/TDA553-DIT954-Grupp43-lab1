@@ -55,6 +55,8 @@ public abstract class Car implements Movable,Positionable {
 
     public Rotation getRotation() { return rotation; }
 
+    public double getRotationSpeed() { return rotationSpeed; }
+
     public boolean setPosition(Position position) {
         this.position = position;
         return true;
