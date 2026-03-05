@@ -1,4 +1,7 @@
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -94,5 +97,15 @@ public class VehicleTransport extends Car implements Loadable<Car>, RampCar{
         for (Car item : CurrentLoad) {
             item.setPosition(getPosition());
         }
+    }
+
+    @Override
+    protected BufferedImage fetchImage() {
+        try {
+            return ImageIO.read(Car.class.getResourceAsStream("MISSING"));
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return null;
     }
 }

@@ -6,13 +6,6 @@ public class VolvoWorkshop extends Workshop {
 
     public VolvoWorkshop(Position position, Rotation rotation) {
         super(position, rotation);
-        try {
-            BufferedImage image = ImageIO.read(VolvoWorkshop.class.getResourceAsStream("pics/VolvoBrand.jpg"));
-            setImage(image);
-
-        } catch (IOException e){
-            e.printStackTrace();
-        }
     }
 
     @Override
@@ -21,5 +14,15 @@ public class VolvoWorkshop extends Workshop {
             return super.load(item);
         }
         return false;
+    }
+
+    @Override
+    protected BufferedImage fetchImage() {
+        try {
+            return ImageIO.read(Car.class.getResourceAsStream("pics/VolvoBrand.jpg"));
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return null;
     }
 }

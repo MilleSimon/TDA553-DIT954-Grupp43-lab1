@@ -9,17 +9,20 @@ public class Volvo240 extends Car{
     
     public Volvo240(){
         super(4, 100, Color.black, "Volvo240", 30);
-        try {
-            BufferedImage image = ImageIO.read(Volvo240.class.getResourceAsStream("pics/Volvo240.jpg"));
-            setImage(image);
-
-        } catch (IOException e){
-            e.printStackTrace();
-        }
     }
 
     @Override
     protected double speedFactor(){
         return getEnginePower() * 0.01 * trimFactor;
+    }
+
+    @Override
+    protected BufferedImage fetchImage() {
+        try {
+            return ImageIO.read(Car.class.getResourceAsStream("pics/Volvo240.jpg"));
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return null;
     }
 }

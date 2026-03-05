@@ -10,13 +10,6 @@ public class Scania extends Car implements FlatbedCar{
     public Scania(){
         super(2, 50, Color.gray, "Scania", 80);
         ramp = new DegreeRamp(70);
-        try {
-            BufferedImage image = ImageIO.read(Scania.class.getResourceAsStream("pics/Scania.jpg"));
-            setImage(image);
-
-        } catch (IOException e){
-            e.printStackTrace();
-        }
     }
 
      @Override
@@ -56,5 +49,15 @@ public class Scania extends Car implements FlatbedCar{
 
     public int getFlatBedAngle() {
         return ramp.getAngle();
+    }
+
+    @Override
+    protected BufferedImage fetchImage() {
+        try {
+            return ImageIO.read(Car.class.getResourceAsStream("pics/Scania.jpg"));
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return null;
     }
 }
