@@ -22,4 +22,14 @@ public class VolvoWorkshop extends Workshop {
         }
         return false;
     }
+
+    @Override
+    protected BufferedImage fetchImage() {
+        try {
+            return ImageIO.read(Car.class.getResourceAsStream("pics/VolvoBrand.jpg"));
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
 }

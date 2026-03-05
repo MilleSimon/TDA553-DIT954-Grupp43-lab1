@@ -14,6 +14,7 @@ public abstract class Workshop implements PickableLoad<Car>, Positionable {
         this.position = position;
         this.rotation = rotation;
         this.maxSize = 20;
+        this.image = fetchImage();
     }
 
     public boolean load(Car item) {
@@ -99,4 +100,25 @@ public abstract class Workshop implements PickableLoad<Car>, Positionable {
             item.setPosition(getPosition());
         }
     }
+
+    public boolean detection(Car car) {
+        Position carPos = car.getPosition();
+        BufferedImage carImage = car.getImage();
+
+        // Calculating if the car and workshop overlap on the x-axis. Separating the axis-es for code cleanliness :]
+        if (carPos.getX() + carImage.getWidth() > position.getX() && carPos.getX() < position.getX() + carImage.getWidth() ) {
+            // Calculating if the car and workshop overlap on the y-axis
+            if (carPos.getY() + carImage.getHeight() > position.getY() && carPos.getY() < position.getY() + carImage.getHeight() ) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public BufferedImage getImage() {
+        return image;
+    }
+
+    abstract protected BufferedImage fetchImage();
 }

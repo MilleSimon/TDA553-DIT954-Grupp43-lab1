@@ -33,4 +33,14 @@ public class Saab95 extends Car implements TurboCar{
         if(turboOn) turbo = 1.3;
         return getEnginePower() * 0.01 * turbo;
     }
+
+    @Override
+    protected BufferedImage fetchImage() {
+        try {
+            return ImageIO.read(Car.class.getResourceAsStream("pics/Saab95.jpg"));
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
 }

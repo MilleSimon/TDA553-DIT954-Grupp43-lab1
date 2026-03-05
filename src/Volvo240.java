@@ -22,4 +22,14 @@ public class Volvo240 extends Car{
     protected double speedFactor(){
         return getEnginePower() * 0.01 * trimFactor;
     }
+
+    @Override
+    protected BufferedImage fetchImage() {
+        try {
+            return ImageIO.read(Car.class.getResourceAsStream("pics/Volvo240.jpg"));
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
 }
