@@ -3,40 +3,60 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Workshop implements PickableLoad<Car>, Positionable {
-    final private Load load;
+    private Ramp entrance = new Ramp();
+    private ArrayList<Car> currentLoad = new ArrayList<>();
     private Position position;
     private Rotation rotation;
+    private final int maxSize;
     private BufferedImage image;
-  
+
     public Workshop(Position position, Rotation rotation) {
         this.position = position;
         this.rotation = rotation;
-        this.load = new Load(20);
+        this.maxSize = 20;
         this.image = fetchImage();
     }
 
     public boolean load(Car item) {
-        return load.load(item);
+        if (entrance.isOpen() && getPosition().withinRange(item.getPosition(), Const.range, Const.range)) {
+            currentLoad.add(item);
+            return true;
+        }
+        return false;
     }
 
     public Car[] unload(int amount) {
-        return load.unload(amount);
+        if (currentLoad.isEmpty()) {
+            return null;
+        }
+        if (entrance.isOpen()) {
+            List<Car> unloaded = new ArrayList<>();
+            for(int i = 0;i < amount;i++) {
+                if (currentLoad.isEmpty())
+                    break;
+                Car item = currentLoad.getLast();
+                unloaded.add(item);
+                currentLoad.removeLast();
+            }
+            return unloaded.toArray(new Car[0]);
+        }
+        return null;
     }
 
     public boolean findItemInLoad(Car item) {
-        return load.findItemInLoad(item);
+        return currentLoad.contains(item);
     }
 
     public Car[] getCurrentLoad() {
-        return load.getCurrentLoad();
+        return currentLoad.toArray(new Car[0]);
     }
 
     public int getLoadSize() {
-        return load.getLoadSize();
+        return currentLoad.size();
     }
 
     public int getMaxSize() {
-        return load.getMaxSize();
+        return maxSize;
     }
 
     public void setImage(BufferedImage image) { this.image = image; }
@@ -44,11 +64,13 @@ public abstract class Workshop implements PickableLoad<Car>, Positionable {
     public BufferedImage getImage() { return image; }
 
     public Car pick(Car desiredCar) {
-        return load.getItemInLoad(desiredCar);
-    }
-
-    public void updateItemPositions() {
-        load.updateItemPositions();
+        for (Car car : currentLoad) {
+            if (car == desiredCar) {
+                currentLoad.remove(desiredCar);
+                return desiredCar;
+            }
+        }
+        return null;
     }
 
     public Position getPosition() { return position; }
