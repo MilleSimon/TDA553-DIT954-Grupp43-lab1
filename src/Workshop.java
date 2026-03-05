@@ -116,9 +116,5 @@ public abstract class Workshop implements PickableLoad<Car>, Positionable {
         return false;
     }
 
-    public BufferedImage getImage() {
-        return image;
-    }
-
     abstract protected BufferedImage fetchImage();
 }

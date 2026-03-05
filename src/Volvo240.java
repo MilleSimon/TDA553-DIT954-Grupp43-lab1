@@ -9,13 +9,6 @@ public class Volvo240 extends Car{
     
     public Volvo240(){
         super(4, 100, Color.black, "Volvo240", 30);
-        try {
-            BufferedImage image = ImageIO.read(Volvo240.class.getResourceAsStream("pics/Volvo240.jpg"));
-            setImage(image);
-
-        } catch (IOException e){
-            e.printStackTrace();
-        }
     }
 
     @Override

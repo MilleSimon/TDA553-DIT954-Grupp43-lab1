@@ -7,7 +7,6 @@ public abstract class Car implements Movable,Positionable {
     private final double enginePower; // Engine power of the car
     private final String modelName; // The car model name
     private final double rotationSpeed; // Rotation angle per turn
-    private BufferedImage image;
     private Color color; // Color of the car
     private double currentSpeed; // The current speed of the car
     private Position position;
@@ -47,6 +46,8 @@ public abstract class Car implements Movable,Positionable {
     public void setImage(BufferedImage image) {this.image = image;}
 
     public BufferedImage getImage() {return image; }
+
+    abstract protected BufferedImage fetchImage();
 
     public Position getPosition() {
         return position;
@@ -112,12 +113,6 @@ public abstract class Car implements Movable,Positionable {
         double newRotation = rotation.getRotation() + rotationSpeed;
         rotation = new Rotation(newRotation);
     }
-
-    public BufferedImage getImage() {
-        return image;
-    }
-
-    abstract protected BufferedImage fetchImage();
 
     private void incrementSpeed(double amount){
         currentSpeed = Math.min(getCurrentSpeed() + speedFactor() * amount,enginePower);
