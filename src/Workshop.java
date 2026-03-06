@@ -10,9 +10,9 @@ public abstract class Workshop implements PickableLoad<Car>, Positionable {
     private final int maxSize;
     private BufferedImage image;
 
-    public Workshop(Position position, Rotation rotation) {
-        this.position = position;
-        this.rotation = rotation;
+    public Workshop() {
+        this.position = new Position(0,0);
+        this.rotation = new Rotation(0);
         this.maxSize = 20;
         this.image = fetchImage();
     }
